@@ -48,3 +48,42 @@ class Artist:
                 'year': year
             })
         return albumviews
+
+
+class Release:
+    def __init__(self, url):
+        self.url = url
+
+    def load(self):
+        self.soup = WebCrawler().get_soup(self.url)
+        self.title = self._get_title()
+        self.albumartist = self._get_albumartist()
+        info = self._get_info()
+        self.label = info['label'].split('–')[0][:-1].strip()
+        self.format = info['format'].split(',')[0]
+        self.style = info['style'].split(',')[0]
+        if 'year' in info:
+            self.year = info['year']
+        else:
+            self.year = info['released']
+
+    def _get_title(self):
+        profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
+        title = profile_title_h1.findAll('span', {'itemprop': 'name'})[1].text
+        return WordProcessor().lowercase_shorts(title)
+
+    def _get_albumartist(self):
+        profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
+        artist = profile_title_h1.find('span', {'itemprop': 'byArtist'}).text
+        return WordProcessor().lowercase_shorts(artist)
+
+    def _get_info(self):
+        info = {}
+        profile = self.soup.find('div', {'class': 'profile'})
+        key = ''
+        for div in profile.findAll('div'):
+            if 'head' in div['class']:
+                key = div.text[:-1].lower()
+            elif 'content' in div['class']:
+                info[key] = WordProcessor().lowercase_shorts(div.text)
+        return info

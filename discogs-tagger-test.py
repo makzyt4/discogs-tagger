@@ -39,7 +39,8 @@ if __name__ == '__main__':
 
         # Discogs web crawling tests
         test.crawler_test.ValidArtistInfoTest(),
-        test.crawler_test.UppercaseArtistTest()
+        test.crawler_test.UppercaseArtistTest(),
+        test.crawler_test.ValidMasterReleaseInfoTest()
     )
 
     i = 0
