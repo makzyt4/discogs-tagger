@@ -36,6 +36,7 @@ class ValidMasterReleaseInfoTest(unittest.TestCase):
         self.assertEqual(release.format, 'Vinyl')
         self.assertEqual(release.style, 'Avantgarde')
         self.assertEqual(release.year, '1981')
+        self.assertFalse(release.is_master)
 
 
 class SubreleasesTest(unittest.TestCase):
@@ -59,3 +60,23 @@ class SubreleasesTest(unittest.TestCase):
         self.assertEqual(release.subreleases[0]['year'], '1985')
         url = '/Scraping-Foetus-Off-The-Wheel-Nail/release/137848'
         self.assertEqual(release.subreleases[0]['link'], url)
+
+
+class TracklistSingleVinylTest(unittest.TestCase):
+    def test(self):
+        url = 'https://www.discogs.com/Radiohead-Pablo-Honey/release/339574'
+        release = Release(url)
+        release.load()
+        self.assertEqual(release.albumartist, 'Radiohead')
+        self.assertEqual(release.title, 'Pablo Honey')
+        self.assertEqual(release.label, 'Parlophone')
+        self.assertEqual(release.format, 'Vinyl')
+        self.assertEqual(release.style, 'Alternative Rock')
+        self.assertEqual(release.year, '1993')
+        self.assertFalse(release.is_master)
+        self.assertEqual(len(release.tracklist), 12)
+        self.assertEqual(release.tracklist[0]['number'], '01')
+        self.assertEqual(release.tracklist[0]['disc'], '')
+        self.assertEqual(release.tracklist[0]['tracktotal'], '12')
+        self.assertEqual(release.tracklist[0]['disctotal'], '')
+        self.assertEqual(release.tracklist[0]['title'], 'You')

@@ -14,7 +14,8 @@ def show_progress(done, todo):
         print('+', end='')
     for j in range(length - i):
         print('-', end='')
-    print(']', end='\r')
+    print('] ', end='')
+    print('{}/{}'.format(done, todo), end='\r')
 
 
 if __name__ == '__main__':
@@ -41,7 +42,8 @@ if __name__ == '__main__':
         test.crawler_test.ValidArtistInfoTest(),
         test.crawler_test.UppercaseArtistTest(),
         test.crawler_test.ValidMasterReleaseInfoTest(),
-        test.crawler_test.SubreleasesTest()
+        test.crawler_test.SubreleasesTest(),
+        test.crawler_test.TracklistSingleVinylTest()
     )
 
     i = 0

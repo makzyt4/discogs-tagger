@@ -2,6 +2,7 @@ import requests
 
 from bs4 import BeautifulSoup
 from discogstagger.wordprocessor import WordProcessor
+from collections import defaultdict
 
 
 class WebCrawler:
@@ -34,7 +35,7 @@ class Artist:
     def _get_albumviews(self):
         cards = self.soup.find('table', {'id': 'artist'})
         albumviews = []
-        for tr in cards.findAll('tr', {'class': 'card'}):
+        for tr in cards.find_all('tr', {'class': 'card'}):
             title_td = tr.find('td', {'class': 'title'})
             label_td = tr.find('td', {'class': 'label'})
             title = title_td.find('a').text
@@ -72,13 +73,14 @@ class Release:
         if 'year' in info:
             self.year = info['year']
         else:
-            self.year = info['released']
+            self.year = info['released'].split(' ')[-1]
         self.style = info['style'].split(',')[0]
         self.subreleases = self._get_subreleases()
+        self.tracklist = self._get_tracklist()
 
     def _get_title(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
-        title = profile_title_h1.findAll('span', {'itemprop': 'name'})[1]
+        title = profile_title_h1.find_all('span', {'itemprop': 'name'})[1]
         return WordProcessor().lowercase_shorts(title.text)
 
     def _get_albumartist(self):
@@ -93,7 +95,7 @@ class Release:
         info = {}
         profile = self.soup.find('div', {'class': 'profile'})
         key = ''
-        for div in profile.findAll('div'):
+        for div in profile.find_all('div'):
             if 'head' in div['class']:
                 key = div.text[:-1].lower()
             elif 'content' in div['class']:
@@ -105,7 +107,7 @@ class Release:
         if not self.is_master:
             return subreleases
         cards = self.soup.find('table', {'id': 'versions'})
-        for tr in cards.findAll('tr', {'class': 'card'}):
+        for tr in cards.find_all('tr', {'class': 'card'}):
             title_td = tr.find('td', {'class': 'title'})
             label_td = tr.find('td', {'class': 'label'})
             title = title_td.find('a').text
@@ -123,3 +125,67 @@ class Release:
                 'year': year
             })
         return subreleases
+
+    def _get_tracklist(self):
+        tracklist = []
+        if self.is_master:
+            return tracklist
+        section_content = self.soup.find('div', {'class': 'section_content'})
+        for tr in section_content.find_all('tr', {'class': 'tracklist_track'}):
+            trackpos = tr.find('td', {'class', 'tracklist_track_pos'}).text
+            tracktitle = tr.find('td', {'class', 'tracklist_track_title'}).text
+            tracklist.append({
+                'number': trackpos,
+                'title': WordProcessor().lowercase_shorts(tracktitle)
+            })
+        self._translate_tracklist(tracklist)
+        return tracklist
+
+    def _translate_tracklist(self, tracklist):
+        vinyl = True if tracklist[0]['number'].startswith('A') else False
+        multvin = True if ord(tracklist[-1]['number'][0]) > ord('B') else False
+        if not vinyl:
+            if '-' in tracklist[0]['number']:
+                disc_max = tracklist[-1]['number'].split('-')[0]
+                disc_max = '{:02}'.format(int(disc_max))
+                disc_dict = defaultdict(int)
+                for i in range(len(tracklist)):
+                    (disc, num) = tracklist[i]['number'].split('-')
+                    disc = '{:02}'.format(int(disc))
+                    num = '{:02}'.format(int(num))
+                    disc_dict[disc] += 1
+                    tracklist[i]['disc'] = disc
+                    tracklist[i]['number'] = num
+                    tracklist[i]['disctotal'] = disc_max
+                for i in range(len(tracklist)):
+                    tracktotal = disc_dict[tracklist[i]['disc']]
+                    tracklist[i]['tracktotal'] = tracktotal
+            else:
+                for i in range(len(tracklist)):
+                    tracklist[i]['disc'] = ''
+                    tracklist[i]['disctotal'] = ''
+                    tracklist[i]['tracktotal'] = '{:02}'.format(len(tracklist))
+                    tracklist[i]['number'] = '{:02}'.format(i + 1)
+        elif multvin:
+            disc_max = tracklist[-1]['number'][0]
+            disc_dict = defaultdict(int)
+            for i in range(len(tracklist)):
+                discnum = self._disc_signum(tracklist[i]['number'][0])
+                disc = str(discnum)
+                disc_dict[disc] += 1
+                tracklist[i]['disc'] = disc
+                tracklist[i]['number'] =\
+                    '{:02}'.format(tracklist[i]['number'][1:])
+                tracklist[i]['disctotal'] = self._disc_signum(disc_max)
+            for i in range(len(tracklist)):
+                tracktotal = disc_dict[tracklist[i]['disc']]
+                tracklist[i]['tracktotal'] = tracktotal
+        else:
+            for i in range(len(tracklist)):
+                tracklist[i]['disc'] = ''
+                tracklist[i]['disctotal'] = ''
+                tracklist[i]['tracktotal'] = '{:02}'.format(len(tracklist))
+                tracklist[i]['number'] = '{:02}'.format(i + 1)
+
+    def _disc_signum(self, c):
+        return ((ord(c) - ord('A')) // 2) + 1
