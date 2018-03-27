@@ -56,26 +56,37 @@ class Release:
 
     def load(self):
         self.soup = WebCrawler().get_soup(self.url)
+        self.is_master = True
         self.title = self._get_title()
         self.albumartist = self._get_albumartist()
         info = self._get_info()
-        self.label = info['label'].split('–')[0][:-1].strip()
-        self.format = info['format'].split(',')[0]
-        self.style = info['style'].split(',')[0]
+        if 'format' in info:
+            self.is_master = False
+            self.format = info['format'].split(',')[0]
+        else:
+            self.format = ''
+        if 'label' in info:
+            self.label = info['label'].split('–')[0][:-1].strip()
+        else:
+            self.label = ''
         if 'year' in info:
             self.year = info['year']
         else:
             self.year = info['released']
+        self.style = info['style'].split(',')[0]
 
     def _get_title(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
-        title = profile_title_h1.findAll('span', {'itemprop': 'name'})[1].text
-        return WordProcessor().lowercase_shorts(title)
+        title = profile_title_h1.findAll('span', {'itemprop': 'name'})[1]
+        return WordProcessor().lowercase_shorts(title.text)
 
     def _get_albumartist(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
-        artist = profile_title_h1.find('span', {'itemprop': 'byArtist'}).text
-        return WordProcessor().lowercase_shorts(artist)
+        artist = profile_title_h1.find('span', {'itemprop': 'byArtist'})
+        link_artist = artist.find('a')
+        if link_artist != None:
+            return WordProcessor().lowercase_shorts(link_artist.text)
+        return WordProcessor().lowercase_shorts(artist.text)
 
     def _get_info(self):
         info = {}

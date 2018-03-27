@@ -7,8 +7,8 @@ import test.crawler_test
 
 
 def show_progress(done, todo):
-    length = 20
-    i = int((done / todo) * 20)
+    length = 78
+    i = int((done / todo) * length)
     print('[', end='')
     for j in range(i):
         print('+', end='')
@@ -40,7 +40,8 @@ if __name__ == '__main__':
         # Discogs web crawling tests
         test.crawler_test.ValidArtistInfoTest(),
         test.crawler_test.UppercaseArtistTest(),
-        test.crawler_test.ValidMasterReleaseInfoTest()
+        test.crawler_test.ValidMasterReleaseInfoTest(),
+        test.crawler_test.SubreleasesTest()
     )
 
     i = 0

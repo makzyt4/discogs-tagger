@@ -28,7 +28,6 @@ class ValidMasterReleaseInfoTest(unittest.TestCase):
     def test(self):
         url = 'https://www.discogs.com/CW-Vrtacek-Victory-Through-Grace/' +\
               'release/770038'
-        artist_url = 'https://www.discogs.com/artist/268908-CW-Vrtacek'
         release = Release(url)
         release.load()
         self.assertEqual(release.albumartist, 'C.W. Vrtacek')
@@ -37,3 +36,17 @@ class ValidMasterReleaseInfoTest(unittest.TestCase):
         self.assertEqual(release.format, 'Vinyl')
         self.assertEqual(release.style, 'Avantgarde')
         self.assertEqual(release.year, '1981')
+
+
+class SubreleasesTest(unittest.TestCase):
+    def test(self):
+        url = 'https://www.discogs.com/Scraping-Foetus-Off-The-Wheel-Nail/' +\
+            'master/8240'
+        release = Release(url)
+        release.load()
+        self.assertEqual(release.albumartist, 'Scraping Foetus Off the Wheel')
+        self.assertEqual(release.title, 'Nail')
+        self.assertEqual(release.label, '')
+        self.assertEqual(release.format, '')
+        self.assertEqual(release.style, 'New Wave')
+        self.assertEqual(release.year, '1985')
