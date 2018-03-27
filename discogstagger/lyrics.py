@@ -19,6 +19,8 @@ class LyricsSearcher:
 
     def load(self):
         li = self.soup.find("li", {"class":"result"})
+        if li is None:
+            return False
         first_artist = li.findAll("a", {"class": "result-link"})[0].text
         ratio = fuzz.ratio(first_artist, self.artist_name)
         if ratio < 60:
