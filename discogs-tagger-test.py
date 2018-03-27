@@ -27,6 +27,8 @@ if __name__ == '__main__':
         test.argparser_test.InvalidURLTest(),
         test.argparser_test.NotDiscogsURLTest(),
         test.argparser_test.InteractiveIsTrueTest(),
+        test.argparser_test.InteractiveAndURLTest(),
+        test.argparser_test.FilesAndInteractiveTest(),
 
         # URL validator tests
         test.urlvalidator_test.ValidURLTest(),

@@ -30,3 +30,4 @@ class ArgumentParser:
         self.options['interactive'] = args.interactive
         if self.options['urlvalid'] and self.options['interactive']:
             self.options['ambiguous'] = True
+        self.options['files'] = args.files
