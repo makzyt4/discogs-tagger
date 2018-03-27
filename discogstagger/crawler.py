@@ -63,7 +63,11 @@ class Release:
         info = self._get_info()
         if 'format' in info:
             self.is_master = False
-            self.format = info['format'].split(',')[0]
+            self.format = info['format']\
+                .replace('\n', '')\
+                .replace(' ', '')\
+                .split(',')[0]\
+                .strip()
         else:
             self.format = ''
         if 'label' in info:
@@ -171,15 +175,19 @@ class Release:
             disc_dict = defaultdict(int)
             for i in range(len(tracklist)):
                 discnum = self._disc_signum(tracklist[i]['number'][0])
-                disc = str(discnum)
+                disc = '{:02}'.format(discnum)
                 disc_dict[disc] += 1
                 tracklist[i]['disc'] = disc
-                tracklist[i]['number'] =\
-                    '{:02}'.format(tracklist[i]['number'][1:])
-                tracklist[i]['disctotal'] = self._disc_signum(disc_max)
+                if tracklist[i]['number'][1:] == '':
+                    tracklist[i]['number'] = '01'
+                else:
+                    tracklist[i]['number'] = '{:02}'.format(
+                        int(tracklist[i]['number'][1:]))
+                tracklist[i]['disctotal'] = '{:02}'.format(
+                    self._disc_signum(disc_max))
             for i in range(len(tracklist)):
                 tracktotal = disc_dict[tracklist[i]['disc']]
-                tracklist[i]['tracktotal'] = tracktotal
+                tracklist[i]['tracktotal'] = '{:02}'.format(tracktotal)
         else:
             for i in range(len(tracklist)):
                 tracklist[i]['disc'] = ''

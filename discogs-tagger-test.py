@@ -43,7 +43,8 @@ if __name__ == '__main__':
         test.crawler_test.UppercaseArtistTest(),
         test.crawler_test.ValidMasterReleaseInfoTest(),
         test.crawler_test.SubreleasesTest(),
-        test.crawler_test.TracklistSingleVinylTest()
+        test.crawler_test.TracklistSingleVinylTest(),
+        test.crawler_test.TracklistDoubleVinylTest(),
     )
 
     i = 0

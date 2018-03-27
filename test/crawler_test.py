@@ -26,8 +26,7 @@ class UppercaseArtistTest(unittest.TestCase):
 
 class ValidMasterReleaseInfoTest(unittest.TestCase):
     def test(self):
-        url = 'https://www.discogs.com/CW-Vrtacek-Victory-Through-Grace/' +\
-              'release/770038'
+        url = 'https://www.discogs.com/CW-Vrtacek-Victory-Through-Grace/release/770038'
         release = Release(url)
         release.load()
         self.assertEqual(release.albumartist, 'C.W. Vrtacek')
@@ -41,8 +40,7 @@ class ValidMasterReleaseInfoTest(unittest.TestCase):
 
 class SubreleasesTest(unittest.TestCase):
     def test(self):
-        url = 'https://www.discogs.com/Scraping-Foetus-Off-The-Wheel-Nail/' +\
-            'master/8240'
+        url = 'https://www.discogs.com/Scraping-Foetus-Off-The-Wheel-Nail/master/8240'
         release = Release(url)
         release.load()
         self.assertEqual(release.albumartist, 'Scraping Foetus Off the Wheel')
@@ -80,3 +78,31 @@ class TracklistSingleVinylTest(unittest.TestCase):
         self.assertEqual(release.tracklist[0]['tracktotal'], '12')
         self.assertEqual(release.tracklist[0]['disctotal'], '')
         self.assertEqual(release.tracklist[0]['title'], 'You')
+
+
+class TracklistDoubleVinylTest(unittest.TestCase):
+    def test(self):
+        url = 'https://www.discogs.com/Bob-Dylan-Blonde-On-Blonde/release/1431601'
+        release = Release(url)
+        release.load()
+        self.assertEqual(release.albumartist, 'Bob Dylan')
+        self.assertEqual(release.title, 'Blonde on Blonde')
+        self.assertEqual(release.label, 'Columbia')
+        self.assertEqual(release.format, '2×Vinyl')
+        self.assertEqual(release.style, 'Folk Rock')
+        self.assertEqual(release.year, '1966')
+        self.assertFalse(release.is_master)
+        self.assertEqual(len(release.tracklist), 14)
+        self.assertEqual(release.tracklist[0]['number'], '01')
+        self.assertEqual(release.tracklist[0]['disc'], '01')
+        self.assertEqual(release.tracklist[0]['tracktotal'], '08')
+        self.assertEqual(release.tracklist[0]['disctotal'], '02')
+        self.assertEqual(
+            release.tracklist[0]['title'], 'Rainy Day Women #12 & 35')
+
+        self.assertEqual(release.tracklist[9]['number'], '02')
+        self.assertEqual(release.tracklist[9]['disc'], '02')
+        self.assertEqual(release.tracklist[9]['tracktotal'], '06')
+        self.assertEqual(release.tracklist[9]['disctotal'], '02')
+        self.assertEqual(release.tracklist[9]
+                         ['title'], 'Temporary Like Achilles')
