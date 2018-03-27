@@ -136,7 +136,11 @@ class Release:
             return tracklist
         section_content = self.soup.find('div', {'class': 'section_content'})
         for tr in section_content.find_all('tr', {'class': 'tracklist_track'}):
-            tr.find('blockquote').extract()
+            bq = tr.find('blockquote')
+            if 'track_heading' in tr['class']:
+                continue
+            if bq is not None:
+                bq.extract()
             trackpos = tr.find('td', {'class', 'tracklist_track_pos'}).text
             tracktitle = tr.find('td', {'class', 'tracklist_track_title'}).text
             tracklist.append({
@@ -147,6 +151,7 @@ class Release:
         return tracklist
 
     def _translate_tracklist(self, tracklist):
+        print(tracklist)
         vinyl = True if tracklist[0]['number'].startswith('A') else False
         multvin = True if ord(tracklist[-1]['number'][0]) > ord('B') else False
         if not vinyl:
@@ -195,6 +200,7 @@ class Release:
                 tracklist[i]['disctotal'] = ''
                 tracklist[i]['tracktotal'] = '{:02}'.format(len(tracklist))
                 tracklist[i]['number'] = '{:02}'.format(i + 1)
+        print(tracklist[i])
 
     def _disc_signum(self, c):
         return ((ord(c) - ord('A')) // 2) + 1

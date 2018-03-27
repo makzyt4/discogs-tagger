@@ -127,3 +127,12 @@ class TracklistTripleCDTest(unittest.TestCase):
         self.assertEqual(release.tracklist[0]['disctotal'], '03')
         self.assertEqual(
             release.tracklist[0]['title'], 'Easy')
+
+
+class TracklistHeadlinesTest(unittest.TestCase):
+    def test(self):
+        url = 'https://www.discogs.com/Radiohead-OK-Computer/release/4950798'
+        release = Release(url)
+        release.load()
+        self.assertEqual(release.tracklist[6]['number'], '01')
+        self.assertEqual(release.tracklist[6]['title'], 'Fitter Happier')
