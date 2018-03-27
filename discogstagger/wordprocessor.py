@@ -1,5 +1,6 @@
 import argparse
 
+
 class WordProcessor:
     def __init__(self):
         self.short_words = (

@@ -18,7 +18,7 @@ class LyricsSearcher:
         self.soup = self.crawler.get_soup(url)
 
     def load(self):
-        li = self.soup.find("li", {"class":"result"})
+        li = self.soup.find("li", {"class": "result"})
         if li is None:
             return False
         first_artist = li.findAll("a", {"class": "result-link"})[0].text
@@ -39,11 +39,11 @@ class LyricsSearcher:
                 ratio = fuzz.ratio(track_title, link.text)
                 if ratio > max_ratio:
                     max_ratio = ratio
-                    found = {'link':link['href'], 'ratio': ratio}
+                    found = {'link': link['href'], 'ratio': ratio}
         if found == None or found['ratio'] < 80:
             return ''
         track_soup = self.crawler.get_soup(self.url_base + found['link'])
-        lyricbox = track_soup.find("div", {"class":"lyricbox"})
+        lyricbox = track_soup.find("div", {"class": "lyricbox"})
         if lyricbox is None:
             return ''
         for br in lyricbox.findAll("br"):

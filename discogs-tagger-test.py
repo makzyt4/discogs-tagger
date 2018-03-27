@@ -5,6 +5,7 @@ import test.argparser_test
 import test.urlvalidator_test
 import test.crawler_test
 
+
 def show_progress(done, todo):
     length = 20
     i = int((done / todo) * 20)

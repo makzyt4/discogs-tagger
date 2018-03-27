@@ -3,6 +3,7 @@ import unittest
 from discogstagger.argparser import ArgumentParser
 from discogstagger.urlvalidator import URLValidator
 
+
 class ValidURLTest(unittest.TestCase):
     def test(self):
         url = 'https://www.discogs.com/Radiohead-The-Bends/release/368116'
