@@ -27,3 +27,9 @@ class NotDiscogsURLTest(unittest.TestCase):
         parser = ArgumentParser(args)
         self.assertFalse(parser["urlvalid"])
         self.assertEqual(parser["url"], url)
+
+class InteractiveIsTrueTest(unittest.TestCase):
+    def test(self):
+        args = ['-i']
+        parser = ArgumentParser(args)
+        self.assertTrue(parser["interactive"])

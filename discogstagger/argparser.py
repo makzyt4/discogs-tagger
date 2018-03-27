@@ -26,3 +26,4 @@ class ArgumentParser:
         args = self.parser.parse_args(args)
         self.options['url'] = args.url
         self.options['urlvalid'] = URLValidator().validate(args.url)
+        self.options['interactive'] = args.interactive

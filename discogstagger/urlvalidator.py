@@ -14,6 +14,8 @@ class URLValidator:
 
 
     def validate(self, text):
+        if type(text) != str:
+            return False
         if not self._validate_uri(text):
             return False
         regex = re.compile('^https?://(www.)?discogs.com/[\S]+/release/\d+$',
