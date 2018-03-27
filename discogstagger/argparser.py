@@ -10,7 +10,8 @@ class ArgumentParser:
         self.options = {
             'url': None,
             'urlvalid': False,
-            'interactive': False
+            'interactive': False,
+            'ambiguous': False
         }
         self.parser = argparse.ArgumentParser(
             description='Simple script that tags your music files with album '
@@ -27,3 +28,5 @@ class ArgumentParser:
         self.options['url'] = args.url
         self.options['urlvalid'] = URLValidator().validate(args.url)
         self.options['interactive'] = args.interactive
+        if self.options['urlvalid'] and self.options['interactive']:
+            self.options['ambiguous'] = True
