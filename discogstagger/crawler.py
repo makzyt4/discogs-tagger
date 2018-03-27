@@ -42,9 +42,9 @@ class Artist:
             label = label_td.find('a').text
             year = tr.find('td', {'class': 'year'}).text
             albumviews.append({
-                'title': title,
+                'title': WordProcessor().lowercase_shorts(title),
                 'link': link,
-                'label': label,
+                'label': WordProcessor().lowercase_shorts(label),
                 'year': year
             })
         return albumviews
