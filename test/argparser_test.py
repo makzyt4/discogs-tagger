@@ -2,7 +2,7 @@ import unittest
 
 from discogstagger.argparser import ArgumentParser
 
-class ValidUrlTest(unittest.TestCase):
+class ValidURLTest(unittest.TestCase):
     def test(self):
         url = 'https://www.discogs.com/Radiohead-The-Bends/release/368116'
         args = ['-u', url]
@@ -11,7 +11,7 @@ class ValidUrlTest(unittest.TestCase):
         self.assertEqual(parser["url"], url)
 
 
-class InvalidUrlTest(unittest.TestCase):
+class InvalidURLTest(unittest.TestCase):
     def test(self):
         url = '<Invalid Url>'
         args = ['-u', url]
@@ -20,7 +20,7 @@ class InvalidUrlTest(unittest.TestCase):
         self.assertFalse(parser["urlvalid"])
 
 
-class NotDiscogsReleaseUrlTest(unittest.TestCase):
+class NotDiscogsURLTest(unittest.TestCase):
     def test(self):
         url = '<Invalid Url>'
         args = ['-u', url]
