@@ -2,10 +2,9 @@ import warnings
 import urllib
 warnings.filterwarnings("ignore", category=UserWarning)
 
-import fuzzywuzzy
-
+from fuzzywuzzy import fuzz
 from bs4 import BeautifulSoup
-from crawler import WebCrawler
+from discogstagger.crawler import WebCrawler
 
 
 class LyricsSearcher:
@@ -15,5 +14,36 @@ class LyricsSearcher:
         self.crawler = WebCrawler()
         url_search_fragment = "/wiki/Special:Search?query="
         artist_query = urllib.parse.quote_plus(artist_name)
-        url = url_base + url_search_fragment + artist_query
+        url = self.url_base + url_search_fragment + artist_query
         self.soup = self.crawler.get_soup(url)
+
+    def load(self):
+        li = self.soup.find("li", {"class":"result"})
+        first_artist = li.findAll("a", {"class": "result-link"})[0].text
+        ratio = fuzz.ratio(first_artist, self.artist_name)
+        if ratio < 60:
+            return False
+        first_link = li.findAll("a", {"class": "result-link"})[0]['href']
+        self.soup = self.crawler.get_soup(first_link)
+        return True
+
+    def search_lyrics(self, track_title):
+        ols = self.soup.findAll("ol")
+        max_ratio = 0
+        found = None
+        for ol in ols:
+            links = ol.findAll("a")
+            for link in links:
+                ratio = fuzz.ratio(track_title, link.text)
+                if ratio > max_ratio:
+                    max_ratio = ratio
+                    found = {'link':link['href'], 'ratio': ratio}
+        if found == None or found['ratio'] < 80:
+            return ''
+        track_soup = self.crawler.get_soup(self.url_base + found['link'])
+        lyricbox = track_soup.find("div", {"class":"lyricbox"})
+        if lyricbox is None:
+            return ''
+        for br in lyricbox.findAll("br"):
+            br.replace_with("\n")
+        return lyricbox.text
