@@ -106,3 +106,24 @@ class TracklistDoubleVinylTest(unittest.TestCase):
         self.assertEqual(release.tracklist[9]['disctotal'], '02')
         self.assertEqual(release.tracklist[9]
                          ['title'], 'Temporary Like Achilles')
+
+
+class TracklistTripleCDTest(unittest.TestCase):
+    def test(self):
+        url = 'https://www.discogs.com/Joanna-Newsom-Have-One-On-Me/release/2148029'
+        release = Release(url)
+        release.load()
+        self.assertEqual(release.albumartist, 'Joanna Newsom')
+        self.assertEqual(release.title, 'Have One on Me')
+        self.assertEqual(release.label, 'Drag City')
+        self.assertEqual(release.format, '3×CD')
+        self.assertEqual(release.style, 'Acoustic')
+        self.assertEqual(release.year, '2010')
+        self.assertFalse(release.is_master)
+        self.assertEqual(len(release.tracklist), 18)
+        self.assertEqual(release.tracklist[0]['number'], '01')
+        self.assertEqual(release.tracklist[0]['disc'], '01')
+        self.assertEqual(release.tracklist[0]['tracktotal'], '06')
+        self.assertEqual(release.tracklist[0]['disctotal'], '03')
+        self.assertEqual(
+            release.tracklist[0]['title'], 'Easy')

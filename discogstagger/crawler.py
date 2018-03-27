@@ -136,6 +136,7 @@ class Release:
             return tracklist
         section_content = self.soup.find('div', {'class': 'section_content'})
         for tr in section_content.find_all('tr', {'class': 'tracklist_track'}):
+            tr.find('blockquote').extract()
             trackpos = tr.find('td', {'class', 'tracklist_track_pos'}).text
             tracktitle = tr.find('td', {'class', 'tracklist_track_title'}).text
             tracklist.append({
@@ -163,7 +164,7 @@ class Release:
                     tracklist[i]['disctotal'] = disc_max
                 for i in range(len(tracklist)):
                     tracktotal = disc_dict[tracklist[i]['disc']]
-                    tracklist[i]['tracktotal'] = tracktotal
+                    tracklist[i]['tracktotal'] = '{:02}'.format(tracktotal)
             else:
                 for i in range(len(tracklist)):
                     tracklist[i]['disc'] = ''
