@@ -3,6 +3,7 @@ import unittest
 import test.lyrics_test
 import test.argparser_test
 import test.urlvalidator_test
+import test.crawler_test
 
 def show_progress(done, todo):
     length = 20
@@ -33,7 +34,11 @@ if __name__ == '__main__':
         # URL validator tests
         test.urlvalidator_test.ValidURLTest(),
         test.urlvalidator_test.InvalidURLTest(),
-        test.urlvalidator_test.NotDiscogsURLTest()
+        test.urlvalidator_test.NotDiscogsURLTest(),
+
+        # Discogs web crawling tests
+        test.crawler_test.ValidArtistInfoTest(),
+        test.crawler_test.UppercaseArtistTest()
     )
 
     i = 0
