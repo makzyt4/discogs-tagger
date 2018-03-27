@@ -17,10 +17,10 @@ class ArgumentParser:
         self.parser = argparse.ArgumentParser(
             description='Simple script that tags your music files with album '
                         'metadata from Discogs database.')
-        self.parser.add_argument('files', metavar='file', nargs='*',
+        self.parser.add_argument('files', metavar='file', nargs='+',
                                  help='file(s) you want to tag')
         self.parser.add_argument('-u', '--url',
-                                 help='Discogs release url. Important: it must not be master '
+                                 help='Discogs release URL. Important: it must not be master '
                                  'release!')
         self.parser.add_argument('-i', '--interactive',
                                  help='Option that allows user to manually choose artist and album'

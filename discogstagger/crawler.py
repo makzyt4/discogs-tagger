@@ -151,7 +151,6 @@ class Release:
         return tracklist
 
     def _translate_tracklist(self, tracklist):
-        print(tracklist)
         vinyl = True if tracklist[0]['number'].startswith('A') else False
         multvin = True if ord(tracklist[-1]['number'][0]) > ord('B') else False
         if not vinyl:
@@ -200,7 +199,6 @@ class Release:
                 tracklist[i]['disctotal'] = ''
                 tracklist[i]['tracktotal'] = '{:02}'.format(len(tracklist))
                 tracklist[i]['number'] = '{:02}'.format(i + 1)
-        print(tracklist[i])
 
     def _disc_signum(self, c):
         return ((ord(c) - ord('A')) // 2) + 1
