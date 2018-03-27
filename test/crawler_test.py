@@ -50,3 +50,12 @@ class SubreleasesTest(unittest.TestCase):
         self.assertEqual(release.format, '')
         self.assertEqual(release.style, 'New Wave')
         self.assertEqual(release.year, '1985')
+        self.assertTrue(release.is_master)
+        self.assertEqual(len(release.subreleases), 15)
+        self.assertEqual(release.subreleases[0]['title'], 'Nail')
+        self.assertEqual(release.subreleases[0]['format'], '(LP, Album)')
+        self.assertEqual(release.subreleases[0]['label'], 'Self Immolation')
+        self.assertEqual(release.subreleases[0]['country'], 'UK')
+        self.assertEqual(release.subreleases[0]['year'], '1985')
+        url = '/Scraping-Foetus-Off-The-Wheel-Nail/release/137848'
+        self.assertEqual(release.subreleases[0]['link'], url)

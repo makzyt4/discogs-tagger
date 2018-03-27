@@ -74,6 +74,7 @@ class Release:
         else:
             self.year = info['released']
         self.style = info['style'].split(',')[0]
+        self.subreleases = self._get_subreleases()
 
     def _get_title(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
@@ -98,3 +99,27 @@ class Release:
             elif 'content' in div['class']:
                 info[key] = WordProcessor().lowercase_shorts(div.text)
         return info
+
+    def _get_subreleases(self):
+        subreleases = []
+        if not self.is_master:
+            return subreleases
+        cards = self.soup.find('table', {'id': 'versions'})
+        for tr in cards.findAll('tr', {'class': 'card'}):
+            title_td = tr.find('td', {'class': 'title'})
+            label_td = tr.find('td', {'class': 'label'})
+            title = title_td.find('a').text
+            format = title_td.find('span', {'class': 'format'}).text
+            link = title_td.find('a')['href']
+            label = label_td.find('a').text
+            country = tr.find('td', {'class': 'country'}).text
+            year = tr.find('td', {'class': 'year'}).text
+            subreleases.append({
+                'title': WordProcessor().lowercase_shorts(title),
+                'format': format,
+                'link': link,
+                'country': country,
+                'label': WordProcessor().lowercase_shorts(label),
+                'year': year
+            })
+        return subreleases
