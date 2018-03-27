@@ -16,8 +16,8 @@ class InvalidUrlTest(unittest.TestCase):
         url = '<Invalid Url>'
         args = ['-u', url]
         parser = ArgumentParser(args)
-        self.assertFalse(parser["urlvalid"])
         self.assertEqual(parser["url"], url)
+        self.assertFalse(parser["urlvalid"])
 
 
 class NotDiscogsReleaseUrlTest(unittest.TestCase):

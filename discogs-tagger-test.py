@@ -10,6 +10,6 @@ if __name__ == '__main__':
     InvalidTrackTest().test()
 
     # Argument parser tests
-    ValidUrlTest().test()
-    InvalidUrlTest().test()
-    NotDiscogsReleaseUrlTest().test()
+    #ValidUrlTest().test()
+    #InvalidUrlTest().test()
+    #NotDiscogsReleaseUrlTest().test()
