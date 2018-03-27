@@ -12,7 +12,7 @@ class ValidSearchTest(unittest.TestCase):
 class InvalidArtistTest(unittest.TestCase):
     def test(self):
         searcher = LyricsSearcher("<Invalid Artist Name>")
-        self.assertEqual(searcher.load(), False)
+        self.assertFalse(searcher.load())
 
 class InvalidTrackTest(unittest.TestCase):
     def test(self):
