@@ -13,7 +13,16 @@ class ValidUrlTest(unittest.TestCase):
 
 class InvalidUrlTest(unittest.TestCase):
     def test(self):
-        url = "sdfsdfd"
+        url = "<Invalid Url>"
+        args = ["-u", url]
+        parser = ArgumentParser(args)
+        self.assertFalse(parser["urlvalid"])
+        self.assertEqual(parser["url"], url)
+
+
+class NotDiscogsReleaseUrlTest(unittest.TestCase):
+    def test(self):
+        url = "<Invalid Url>"
         args = ["-u", url]
         parser = ArgumentParser(args)
         self.assertFalse(parser["urlvalid"])
