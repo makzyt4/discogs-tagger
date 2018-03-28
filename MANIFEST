@@ -3,6 +3,7 @@ LICENSE
 README.md
 setup.py
 discogstagger/__init__.py
+discogstagger/__main__.py
 discogstagger/argparser.py
 discogstagger/auto_search.py
 discogstagger/crawler.py

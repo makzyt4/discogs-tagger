@@ -1,12 +1,12 @@
-from crawler import WebCrawler, Artist, Release
-from tagger import Tagger
-from renamer import FileRenamer
-from lyrics import LyricsSearcher
+from discogstagger.crawler import WebCrawler, Artist, Release
+from discogstagger.tagger import Tagger
+from discogstagger.renamer import FileRenamer
+from discogstagger.lyrics import LyricsSearcher
 
 
 class Search:
     def __init__(self):
-        self.base_url = discogstagger.crawler.WebCrawler().base_url
+        self.base_url = WebCrawler().base_url
 
     def ask_if_continue(self, text):
         while True:

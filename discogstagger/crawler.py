@@ -2,8 +2,8 @@ import requests
 import urllib
 
 from bs4 import BeautifulSoup
-from discogstagger.wordprocessor import WordProcessor
 from collections import defaultdict
+from discogstagger.wordprocessor import WordProcessor
 
 
 class WebCrawler:

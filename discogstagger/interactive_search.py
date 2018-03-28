@@ -1,15 +1,15 @@
-import discogstagger.search
-import discogstagger.crawler
+from discogstagger.search import Search
+from discogstagger.crawler import WebCrawler, Artist, Release
 
 
-class InteractiveSearch(discogstagger.search.Search):
+class InteractiveSearch(Search):
     def __init__(self, parser, settings):
-        discogstagger.search.Search.__init__(self)
+        Search.__init__(self)
         self.parser = parser
         self.settings = settings
 
     def search_artist(self):
-        self.artist = discogstagger.crawler.WebCrawler().search_artist(self.settings)
+        self.artist = WebCrawler().search_artist(self.settings)
         self.artist.load()
 
     def choose_release(self):
@@ -27,8 +27,7 @@ class InteractiveSearch(discogstagger.search.Search):
             except ValueError:
                 print("Wrong value. Please enter an integer.")
         print('-' * 80)
-        self.release = discogstagger.crawler.Release(
-            self.base_url + masters[index - 1]['link'])
+        self.release = Release(self.base_url + masters[index - 1]['link'])
         self.release.load()
         if not self.release.is_master:
             print("Found no subreleases.")
@@ -52,8 +51,7 @@ class InteractiveSearch(discogstagger.search.Search):
             except ValueError:
                 print("Wrong value. Please enter an integer.")
         print('-' * 80)
-        self.release = discogstagger.crawler.Release(
-            self.base_url + subreleases[index - 1]['link'])
+        self.release = Release(self.base_url + subreleases[index - 1]['link'])
         self.release.load()
 
     def connect_to_lyric_wikia(self):

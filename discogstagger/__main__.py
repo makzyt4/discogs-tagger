@@ -1,14 +1,14 @@
 #!/usr/bin/python
 import sys
 
-from argparser import ArgumentParser
-from crawler import WebCrawler, Artist, Release
-from lyrics import LyricsSearcher
-from settings import SettingsManager
-from tagger import Tagger
-from renamer import FileRenamer
-from auto_search import AutoSearch
-from interactive_search import InteractiveSearch
+from discogstagger.argparser import ArgumentParser
+from discogstagger.crawler import WebCrawler, Artist, Release
+from discogstagger.lyrics import LyricsSearcher
+from discogstagger.settings import SettingsManager
+from discogstagger.tagger import Tagger
+from discogstagger.renamer import FileRenamer
+from discogstagger.auto_search import AutoSearch
+from discogstagger.interactive_search import InteractiveSearch
 
 
 def main():
