@@ -18,7 +18,8 @@ def ask_if_continue():
 
 
 if __name__ == "__main__":
-    parser = discogstagger.argparser.ArgumentParser(sys.argv)
+    base_url = discogstagger.crawler.WebCrawler().base_url
+    parser = discogstagger.argparser.ArgumentParser()
     settings = discogstagger.settings.SettingsManager()
 
     if not settings.load():
@@ -27,7 +28,7 @@ if __name__ == "__main__":
     else:
         print("Loading settings file...")
 
-    if len(parser['files']):
+    if len(parser['files']) == 0:
         print("You haven't selected any files!")
         sys.exit(3)
 
@@ -43,9 +44,13 @@ if __name__ == "__main__":
         print("Loading URL :: {}".format(parser['url']))
         release = discogstagger.crawler.Release(parser['url'])
         release.load()
+        artist = discogstagger.crawler.Artist(base_url + release.artist_link)
         release.print_summary()
         if len(parser['files']) != len(release.tracklist):
-            print("WARNING: The files number and tracklist length don't match. Do you want to continue anyway? (Y/n)")
+            print("WARNING: The files number and tracklist length don't match.")
             if not ask_if_continue():
                 print("Exiting...")
                 sys.exit(0)
+            for f in parser['files']:
+                searcher = discogstagger.lyrics.LyricsSearcher(artist.name)
+                tag_file(filename, artist, track, settings, searcher)

@@ -55,4 +55,4 @@ if __name__ == '__main__':
         test.test()
         i += 1
         show_progress(i, len(tests))
-    print("\n100% tests passed")
+    print("\n100% of tests passed")

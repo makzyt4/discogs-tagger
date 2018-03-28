@@ -7,6 +7,7 @@ from collections import defaultdict
 
 class WebCrawler:
     def __init__(self):
+        self.base_url = "https://discogs.com"
         self.header = {
             'User-Agent': 'Discogs Tagger User Agent 1.0'
         }
@@ -74,7 +75,8 @@ class Release:
         self.soup = WebCrawler().get_soup(self.url)
         self.is_master = True
         self.title = self._get_title()
-        self.albumartist = self._get_albumartist()
+        self.album_artist = self._get_album_artist()
+        self.artist_link = self._get_artist_link()
         info = self._get_info()
         if 'format' in info:
             self.is_master = False
@@ -98,7 +100,7 @@ class Release:
         self.tracklist = self._get_tracklist()
 
     def print_summary(self, numbered=False):
-        print('{} - {} ({})'.format(self.albumartist, self.title, self.year))
+        print('{} - {} ({})'.format(self.album_artist, self.title, self.year))
         print('Label: {}'.format(self.label))
         print('Format: {}'.format(self.format))
         print('Style: {}'.format(self.style))
@@ -131,13 +133,17 @@ class Release:
         title = profile_title_h1.find_all('span', {'itemprop': 'name'})[1]
         return WordProcessor().lowercase_shorts(title.text)
 
-    def _get_albumartist(self):
+    def _get_artist_link(self):
+        profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
+        artist = profile_title_h1.find('span', {'itemprop': 'byArtist'})
+        artist_link = artist.find('a')['href']
+        return WordProcessor().lowercase_shorts(artist_link)
+
+    def _get_album_artist(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
         artist = profile_title_h1.find('span', {'itemprop': 'byArtist'})
         link_artist = artist.find('a')
-        if link_artist != None:
-            return WordProcessor().lowercase_shorts(link_artist.text)
-        return WordProcessor().lowercase_shorts(artist.text)
+        return WordProcessor().lowercase_shorts(link_artist.text)
 
     def _get_info(self):
         info = {}
@@ -230,8 +236,7 @@ class Release:
                 if tracklist[i]['number'][1:] == '':
                     tracklist[i]['number'] = '01'
                 else:
-                    tracklist[i]['number'] = '{:02}'.format(
-                        int(tracklist[i]['number'][1:]))
+                    tracklist[i]['number'] = '{:02}'.format(disc_dict[disc])
                 tracklist[i]['disctotal'] = '{:02}'.format(
                     self._disc_signum(disc_max))
             for i in range(len(tracklist)):
