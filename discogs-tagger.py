@@ -1,4 +1,4 @@
-#/usr/bin/python
+#!/usr/bin/python
 import discogstagger.argparser
 import discogstagger.crawler
 import discogstagger.lyrics
