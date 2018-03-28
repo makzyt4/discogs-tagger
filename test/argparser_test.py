@@ -8,8 +8,8 @@ class ValidURLTest(unittest.TestCase):
         url = 'https://www.discogs.com/Radiohead-The-Bends/release/368116'
         args = ['-u', url, 'abc']
         parser = ArgumentParser(args)
-        self.assertTrue(parser["urlvalid"])
-        self.assertEqual(parser["url"], url)
+        self.assertTrue(parser['urlvalid'])
+        self.assertEqual(parser['url'], url)
         self.assertFalse(parser['ambiguous'])
 
 
@@ -18,8 +18,8 @@ class InvalidURLTest(unittest.TestCase):
         url = '<Invalid Url>'
         args = ['-u', url, 'abc']
         parser = ArgumentParser(args)
-        self.assertEqual(parser["url"], url)
-        self.assertFalse(parser["urlvalid"])
+        self.assertEqual(parser['url'], url)
+        self.assertFalse(parser['urlvalid'])
         self.assertFalse(parser['ambiguous'])
 
 
@@ -28,8 +28,8 @@ class NotDiscogsURLTest(unittest.TestCase):
         url = '<Invalid Url>'
         args = ['-u', url, 'abc']
         parser = ArgumentParser(args)
-        self.assertFalse(parser["urlvalid"])
-        self.assertEqual(parser["url"], url)
+        self.assertFalse(parser['urlvalid'])
+        self.assertEqual(parser['url'], url)
         self.assertFalse(parser['ambiguous'])
 
 
@@ -37,7 +37,7 @@ class InteractiveIsTrueTest(unittest.TestCase):
     def test(self):
         args = ['-i', 'abc']
         parser = ArgumentParser(args)
-        self.assertTrue(parser["interactive"])
+        self.assertTrue(parser['interactive'])
         self.assertFalse(parser['ambiguous'])
 
 

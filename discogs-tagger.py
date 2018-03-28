@@ -17,7 +17,7 @@ def ask_if_continue():
             print("Wrong input. Enter uppercase 'Y' or lowercase 'n'.")
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     base_url = discogstagger.crawler.WebCrawler().base_url
     parser = discogstagger.argparser.ArgumentParser()
     settings = discogstagger.settings.SettingsManager()
