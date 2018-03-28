@@ -3,23 +3,10 @@ Simple script that tags your music files with album metadata from Discogs databa
 
 ## Installation
 
-Use these commands to obtain discogs-tagger and go into the script folder:
+Simply install it using pip:
 
 ```
-$ git clone https://github.com/makzyt4/discogs-tagger
-$ cd discogs-tagger
-```
-
-Now using pip 3 freeze download the dependencies:
-
-```
-# pip freeze -r requirements.txt
-```
-
-Finally, copy (or move) the script to your enviromental path. For example, `/usr/bin`:
-
-```
-# mv discogs-tagger.py /usr/bin/discogs-tagger
+# pip install discogs-tagger
 ```
 
 ## Usage
