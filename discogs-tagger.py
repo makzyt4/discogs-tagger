@@ -53,12 +53,12 @@ if __name__ == "__main__":
                 print("Exiting...")
                 sys.exit(0)
             # if settings['tag-lyrics']
-            searcher = discogstagger.lyrics.LyricsSearcher(artist.name)
-            tagger = discogstagger.tagger.Tagger(
-                artist, release, settings, searcher)
-            files = parser['files']
-            for i in range(len(files)):
-                print("Tagging :: {}".format(files[i]))
-                result = tagger.tag_file(files[i], release.tracklist[i])
-                if result == False:
-                    print("Could not tag a file: '{}'".format(files[i]))
+        searcher = discogstagger.lyrics.LyricsSearcher(artist.name)
+        tagger = discogstagger.tagger.Tagger(
+            artist, release, settings, searcher)
+        files = parser['files']
+        for i in range(len(files)):
+            print("Tagging :: {}".format(files[i]))
+            result = tagger.tag_file(files[i], release.tracklist[i])
+            if result == False:
+                print("Could not tag a file: '{}'".format(files[i]))
