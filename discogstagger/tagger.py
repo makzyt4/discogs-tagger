@@ -27,10 +27,7 @@ class Tagger:
         audio['discnumber'] = track['disc']
         audio['tracknumber'] = track['number']
         audio['organization'] = self.release.label
-        if self.searcher is not None:
-            audio['lyrics'] = self.searcher.search_lyrics(track['title'])
-        else:
-            audio['lyrics'] = ''
+        audio['lyrics'] = self.searcher.search_lyrics(track['title'])
         if self.artist.name == self.release.album_artist:
             audio['albumartist'] = ''
         else:

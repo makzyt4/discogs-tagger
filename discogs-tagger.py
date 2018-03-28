@@ -55,6 +55,12 @@ if __name__ == '__main__':
                 sys.exit(0)
             # if settings['tag-lyrics']
         searcher = discogstagger.lyrics.LyricsSearcher(artist.name)
+        if settings['tag-lyrics'] == 'true':
+            print("Connecting to Lyrics Wikia...")
+            if searcher.load():
+                print("Found artist.")
+            else:
+                print("Couldn't find that artist.")
         tagger = discogstagger.tagger.Tagger(
             artist, release, settings, searcher)
         renamer = discogstagger.renamer.FileRenamer(settings['format'])
