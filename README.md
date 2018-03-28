@@ -82,11 +82,11 @@ These are tags used in file name formatting (`format` key in settings file):
 - `${a}` - artist
 - `${b}` - album artist
 
-You can as well put special characters (but only valid for your filesystem). For
-example:
+You can as well put special characters (but only valid for your filesystem). This
+example
 
 ```
 format=${d-}${n} - ${_t_}
 ```
 
-May result in something like this: `01-05 - _Some title_`
+may result in something like this: `01-05 - _Some title_`
