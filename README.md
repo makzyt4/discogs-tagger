@@ -24,6 +24,23 @@ Finally, copy (or move) the script to your enviromental path. For example, `/usr
 
 ## Usage
 
+```
+usage: discogs-tagger.py [-h] [-u URL] [-i] file [file ...]
+
+Simple script that tags your music files with album metadata from Discogs
+database.
+
+positional arguments:
+  file               file(s) you want to tag
+
+optional arguments:
+  -h, --help         show this help message and exit
+  -u URL, --url URL  Discogs release URL. Important: it must not be master
+                     release!
+  -i, --interactive  Option that allows user to manually choose artist and
+                     album release.
+```
+
 To tag your files, with discogs-tagger you can choose one method of two. The first one is automatic search. You give the script `-u <url>` option and it'll automatically download all the info on the album. Important - it mustn't be master release! Only albums without subreleases. Example:
 
 ```
