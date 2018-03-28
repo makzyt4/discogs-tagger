@@ -50,7 +50,7 @@ $ discogs-tagger -u https://www.discogs.com/Radiohead-OK-Computer/release/495079
 The other way is interactive search. You must enter artists name and then the script will show you available artists to choose from, then you choose a master release and subrelease. Command:
 
 ```
-discogs-tagger -i ~/Music/SomeMusicDir/*.flac
+$ discogs-tagger -i ~/Music/SomeMusicDir/*.flac
 ```
 
 What's also important, you should always choose files, otherwise the script won't do anything.
