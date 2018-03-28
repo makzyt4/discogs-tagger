@@ -96,6 +96,7 @@ class Release:
         else:
             self.year = info['released'].split(' ')[-1]
         self.style = info['style'].split(',')[0]
+        self.genre = info['genre'].split(',')[0]
         self.subreleases = self._get_subreleases()
         self.tracklist = self._get_tracklist()
 

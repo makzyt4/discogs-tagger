@@ -10,7 +10,8 @@ class SettingsManager:
         self.default_settings = {
             'format': '${d-}${n} - ${t}',
             'artist-query-size': 5,
-            'tag-lyrics': 'false'
+            'tag-lyrics': 'false',
+            'genre-base': 'genre'
         }
         self.settings = self.default_settings
 

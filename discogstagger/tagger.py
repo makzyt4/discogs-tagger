@@ -22,7 +22,10 @@ class Tagger:
         audio['album'] = self.release.title
         audio['artist'] = self.artist.name
         audio['date'] = self.release.year
-        audio['genre'] = self.release.style
+        if self.settings['genre-base'] == 'style':
+            audio['genre'] = self.release.style
+        else:
+            audio['genre'] = self.release.genre
         audio['tracktotal'] = track['tracktotal']
         audio['discnumber'] = track['disc']
         audio['tracknumber'] = track['number']
