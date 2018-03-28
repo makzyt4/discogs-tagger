@@ -29,7 +29,7 @@ class ValidMasterReleaseInfoTest(unittest.TestCase):
         url = 'https://www.discogs.com/CW-Vrtacek-Victory-Through-Grace/release/770038'
         release = Release(url)
         release.load()
-        self.assertEqual(release.albumartist, 'C.W. Vrtacek')
+        self.assertEqual(release.album_artist, 'C.W. Vrtacek')
         self.assertEqual(release.title, 'Victory Through Grace')
         self.assertEqual(release.label, 'Leisure Time Records')
         self.assertEqual(release.format, 'Vinyl')
@@ -43,7 +43,7 @@ class SubreleasesTest(unittest.TestCase):
         url = 'https://www.discogs.com/Scraping-Foetus-Off-The-Wheel-Nail/master/8240'
         release = Release(url)
         release.load()
-        self.assertEqual(release.albumartist, 'Scraping Foetus Off the Wheel')
+        self.assertEqual(release.album_artist, 'Scraping Foetus Off the Wheel')
         self.assertEqual(release.title, 'Nail')
         self.assertEqual(release.label, '')
         self.assertEqual(release.format, '')
@@ -65,7 +65,7 @@ class TracklistSingleVinylTest(unittest.TestCase):
         url = 'https://www.discogs.com/Radiohead-Pablo-Honey/release/339574'
         release = Release(url)
         release.load()
-        self.assertEqual(release.albumartist, 'Radiohead')
+        self.assertEqual(release.album_artist, 'Radiohead')
         self.assertEqual(release.title, 'Pablo Honey')
         self.assertEqual(release.label, 'Parlophone')
         self.assertEqual(release.format, 'Vinyl')
@@ -85,7 +85,7 @@ class TracklistDoubleVinylTest(unittest.TestCase):
         url = 'https://www.discogs.com/Bob-Dylan-Blonde-On-Blonde/release/1431601'
         release = Release(url)
         release.load()
-        self.assertEqual(release.albumartist, 'Bob Dylan')
+        self.assertEqual(release.album_artist, 'Bob Dylan')
         self.assertEqual(release.title, 'Blonde on Blonde')
         self.assertEqual(release.label, 'Columbia')
         self.assertEqual(release.format, '2×Vinyl')
@@ -113,7 +113,7 @@ class TracklistTripleCDTest(unittest.TestCase):
         url = 'https://www.discogs.com/Joanna-Newsom-Have-One-On-Me/release/2148029'
         release = Release(url)
         release.load()
-        self.assertEqual(release.albumartist, 'Joanna Newsom')
+        self.assertEqual(release.album_artist, 'Joanna Newsom')
         self.assertEqual(release.title, 'Have One on Me')
         self.assertEqual(release.label, 'Drag City')
         self.assertEqual(release.format, '3×CD')
@@ -136,3 +136,12 @@ class TracklistHeadlinesTest(unittest.TestCase):
         release.load()
         self.assertEqual(release.tracklist[6]['number'], '01')
         self.assertEqual(release.tracklist[6]['title'], 'Fitter Happier')
+
+
+class UntitledTrackTest(unittest.TestCase):
+    def test(self):
+        url = 'https://www.discogs.com/Alva-Noto-Prototypes/release/43546'
+        release = Release(url)
+        release.load()
+        self.assertEqual(release.tracklist[6]['number'], '07')
+        self.assertEqual(release.tracklist[6]['title'], '[untitled]')

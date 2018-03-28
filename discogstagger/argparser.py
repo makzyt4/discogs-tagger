@@ -7,7 +7,7 @@ class ArgumentParser:
     def __getitem__(self, item):
         return self.options[item]
 
-    def __init__(self):
+    def __init__(self, args=None):
         self.options = {
             'url': None,
             'urlvalid': False,
@@ -23,7 +23,10 @@ class ArgumentParser:
                                  help='Option that allows user to manually choose artist and album release.', action='store_true')
         self.parser.add_argument('files', metavar='file', nargs='+',
                                  help='file(s) you want to tag')
-        args = self.parser.parse_args()
+        if args is None:
+            args = self.parser.parse_args()
+        else:
+            args = self.parser.parse_args(args)
         self.options['url'] = args.url
         self.options['urlvalid'] = URLValidator().validate(args.url)
         self.options['interactive'] = args.interactive

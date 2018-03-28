@@ -6,7 +6,7 @@ from discogstagger.argparser import ArgumentParser
 class ValidURLTest(unittest.TestCase):
     def test(self):
         url = 'https://www.discogs.com/Radiohead-The-Bends/release/368116'
-        args = ['-u', url]
+        args = ['-u', url, 'abc']
         parser = ArgumentParser(args)
         self.assertTrue(parser["urlvalid"])
         self.assertEqual(parser["url"], url)
@@ -16,7 +16,7 @@ class ValidURLTest(unittest.TestCase):
 class InvalidURLTest(unittest.TestCase):
     def test(self):
         url = '<Invalid Url>'
-        args = ['-u', url]
+        args = ['-u', url, 'abc']
         parser = ArgumentParser(args)
         self.assertEqual(parser["url"], url)
         self.assertFalse(parser["urlvalid"])
@@ -26,7 +26,7 @@ class InvalidURLTest(unittest.TestCase):
 class NotDiscogsURLTest(unittest.TestCase):
     def test(self):
         url = '<Invalid Url>'
-        args = ['-u', url]
+        args = ['-u', url, 'abc']
         parser = ArgumentParser(args)
         self.assertFalse(parser["urlvalid"])
         self.assertEqual(parser["url"], url)
@@ -35,7 +35,7 @@ class NotDiscogsURLTest(unittest.TestCase):
 
 class InteractiveIsTrueTest(unittest.TestCase):
     def test(self):
-        args = ['-i']
+        args = ['-i', 'abc']
         parser = ArgumentParser(args)
         self.assertTrue(parser["interactive"])
         self.assertFalse(parser['ambiguous'])
@@ -44,7 +44,7 @@ class InteractiveIsTrueTest(unittest.TestCase):
 class InteractiveAndURLTest(unittest.TestCase):
     def test(self):
         url = 'https://www.discogs.com/Radiohead-The-Bends/release/368116'
-        args = ['-i', '-u', url]
+        args = ['-i', '-u', url, 'abc']
         parser = ArgumentParser(args)
         self.assertTrue(parser['ambiguous'])
 

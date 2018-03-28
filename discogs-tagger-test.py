@@ -47,6 +47,7 @@ if __name__ == '__main__':
         test.crawler_test.TracklistDoubleVinylTest(),
         test.crawler_test.TracklistTripleCDTest(),
         test.crawler_test.TracklistHeadlinesTest(),
+        test.crawler_test.UntitledTrackTest(),
     )
 
     i = 0

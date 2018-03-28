@@ -9,7 +9,10 @@ class WordProcessor:
             'as', 'to'
         )
 
-    def lowercase_shorts(self, text):
+    def process(self, text):
+        if text.lower() == 'untitled':
+            return '[untitled]'
+
         words = text.strip().split(' ')
         for i in range(len(words)):
             if i == 0 or i == len(words) - 1:

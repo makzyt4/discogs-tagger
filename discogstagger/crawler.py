@@ -45,7 +45,7 @@ class Artist:
 
     def _get_name(self):
         name = self.soup.find('h1', {'class': 'hide_mobile'}).text
-        name = WordProcessor().lowercase_shorts(name)
+        name = WordProcessor().process(name)
         return name
 
     def _get_albumviews(self):
@@ -59,9 +59,9 @@ class Artist:
             label = label_td.find('a').text
             year = tr.find('td', {'class': 'year'}).text
             albumviews.append({
-                'title': WordProcessor().lowercase_shorts(title),
+                'title': WordProcessor().process(title),
                 'link': link,
-                'label': WordProcessor().lowercase_shorts(label),
+                'label': WordProcessor().process(label),
                 'year': year
             })
         return albumviews
@@ -131,19 +131,19 @@ class Release:
     def _get_title(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
         title = profile_title_h1.find_all('span', {'itemprop': 'name'})[1]
-        return WordProcessor().lowercase_shorts(title.text)
+        return WordProcessor().process(title.text)
 
     def _get_artist_link(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
         artist = profile_title_h1.find('span', {'itemprop': 'byArtist'})
         artist_link = artist.find('a')['href']
-        return WordProcessor().lowercase_shorts(artist_link)
+        return WordProcessor().process(artist_link)
 
     def _get_album_artist(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
         artist = profile_title_h1.find('span', {'itemprop': 'byArtist'})
         link_artist = artist.find('a')
-        return WordProcessor().lowercase_shorts(link_artist.text)
+        return WordProcessor().process(link_artist.text)
 
     def _get_info(self):
         info = {}
@@ -153,7 +153,7 @@ class Release:
             if 'head' in div['class']:
                 key = div.text[:-1].lower()
             elif 'content' in div['class']:
-                info[key] = WordProcessor().lowercase_shorts(div.text)
+                info[key] = WordProcessor().process(div.text)
         return info
 
     def _get_subreleases(self):
@@ -171,11 +171,11 @@ class Release:
             country = tr.find('td', {'class': 'country'}).text
             year = tr.find('td', {'class': 'year'}).text
             subreleases.append({
-                'title': WordProcessor().lowercase_shorts(title),
+                'title': WordProcessor().process(title),
                 'format': format,
                 'link': link,
                 'country': country,
-                'label': WordProcessor().lowercase_shorts(label),
+                'label': WordProcessor().process(label),
                 'year': year
             })
         return subreleases
@@ -195,7 +195,7 @@ class Release:
             tracktitle = tr.find('td', {'class', 'tracklist_track_title'}).text
             tracklist.append({
                 'number': trackpos,
-                'title': WordProcessor().lowercase_shorts(tracktitle)
+                'title': WordProcessor().process(tracktitle)
             })
         self._translate_tracklist(tracklist)
         return tracklist
