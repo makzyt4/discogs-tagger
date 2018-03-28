@@ -3,6 +3,7 @@ import discogstagger.crawler
 import discogstagger.lyrics
 import discogstagger.settings
 import discogstagger.tagger
+import discogstagger.renamer
 import sys
 
 
@@ -56,9 +57,13 @@ if __name__ == '__main__':
         searcher = discogstagger.lyrics.LyricsSearcher(artist.name)
         tagger = discogstagger.tagger.Tagger(
             artist, release, settings, searcher)
+        renamer = discogstagger.renamer.FileRenamer(settings['format'])
         files = parser['files']
         for i in range(len(files)):
             print("Tagging :: {}".format(files[i]))
             result = tagger.tag_file(files[i], release.tracklist[i])
             if result == False:
                 print("Could not tag a file: '{}'".format(files[i]))
+            print("Renaming :: {}".format(files[i]))
+            renamer.rename_file(
+                files[i], release.tracklist[i], release, artist)

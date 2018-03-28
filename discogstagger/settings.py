@@ -2,16 +2,19 @@ import os
 
 
 class SettingsManager:
+    def __getitem__(self, item):
+        return self.settings[item]
+
     def __init__(self, filename=os.path.expanduser('~') + os.sep + 'discogs-tagger.settings'):
         self.filename = filename
         self.default_settings = {
-            'format': '${discd}${tracknum} - ${title}',
+            'format': '${d-}${n} - ${t}',
             'artist-query-size': 5,
             'tag-lyrics': 'false'
         }
+        self.settings = self.default_settings
 
     def load(self):
-        self.settings = self.default_settings
         try:
             with open(self.filename) as f:
                 content = [x.strip() for x in f.readlines()]
