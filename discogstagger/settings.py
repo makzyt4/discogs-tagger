@@ -22,7 +22,7 @@ class SettingsManager:
                 for line in content:
                     key = line.split('=')[0].strip()
                     val = line.split('=')[1].strip()
-                self.settings[key] = val
+                    self.settings[key] = val
             return True
         except FileNotFoundError:
             return False

@@ -21,8 +21,6 @@ if __name__ == '__main__':
     else:
         print("Loading settings file...")
 
-    print(settings.settings)
-
     if len(parser['files']) == 0:
         print("You haven't selected any files!")
         sys.exit(3)
