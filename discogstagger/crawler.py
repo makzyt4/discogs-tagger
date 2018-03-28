@@ -27,6 +27,21 @@ class Artist:
         self.name = self._get_name()
         self.albumviews = self._get_albumviews()
 
+    def print_summary(self, numbered=False):
+        print(self.name)
+        print('-' * 80)
+        print(':: Discography ::')
+        if numbered:
+            i = 1
+            for album in self.albumviews:
+                print('[{:02}] {} ({}) <{}>'.format(
+                    i, album['title'], ['year'], album['label']))
+                i += 1
+        else:
+            print('{} ({}) <{}>'.format(
+                album['title'], ['year'], album['label']))
+        print('-' * 80)
+
     def _get_name(self):
         name = self.soup.find('h1', {'class': 'hide_mobile'}).text
         name = WordProcessor().lowercase_shorts(name)
@@ -82,7 +97,7 @@ class Release:
         self.subreleases = self._get_subreleases()
         self.tracklist = self._get_tracklist()
 
-    def print_summary(self):
+    def print_summary(self, numbered=False):
         print('{} - {} ({})'.format(self.albumartist, self.title, self.year))
         print('Label: {}'.format(self.label))
         print('Format: {}'.format(self.format))
@@ -90,9 +105,17 @@ class Release:
         print('-' * 80)
         if self.is_master:
             print(":: Subreleases ::")
-            for sub in self.subreleases:
-                print('{} {} ({}) <{}>'.format(
-                    sub['title'], sub['format'], sub['year'], sub['label']))
+            if numbered:
+                i = 1
+                for sub in self.subreleases:
+                    print('[{}] {} {} ({}) <{}>'.format(
+                        i, sub['title'], sub['format'], sub['year'], sub['label']))
+                    i += 1
+            else:
+                for sub in self.subreleases:
+                    print('{} {} ({}) <{}>'.format(
+                        sub['title'], sub['format'], sub['year'], sub['label']))
+
         else:
             print(":: Tracklist ::")
             for track in self.tracklist:
