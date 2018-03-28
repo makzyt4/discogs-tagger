@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name="discogs-tagger",
-    version="0.1.1",
+    version="0.1.2",
     packages=['discogstagger'],
     entry_points={
         'console_scripts': [
