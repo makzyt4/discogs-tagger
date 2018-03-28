@@ -2,6 +2,7 @@ import discogstagger.argparser
 import discogstagger.crawler
 import discogstagger.lyrics
 import discogstagger.settings
+import discogstagger.tagger
 import sys
 
 
@@ -9,7 +10,6 @@ def ask_if_continue():
     while True:
         choice = input("Do you want to continue? (Y/n): ")
         if choice == "Y":
-            number_of_files = min(len(tl), number_of_files)
             return True
         elif choice == "n":
             return False
@@ -45,12 +45,20 @@ if __name__ == "__main__":
         release = discogstagger.crawler.Release(parser['url'])
         release.load()
         artist = discogstagger.crawler.Artist(base_url + release.artist_link)
+        artist.load()
         release.print_summary()
         if len(parser['files']) != len(release.tracklist):
             print("WARNING: The files number and tracklist length don't match.")
             if not ask_if_continue():
                 print("Exiting...")
                 sys.exit(0)
-            for f in parser['files']:
-                searcher = discogstagger.lyrics.LyricsSearcher(artist.name)
-                tag_file(filename, artist, track, settings, searcher)
+            # if settings['tag-lyrics']
+            searcher = discogstagger.lyrics.LyricsSearcher(artist.name)
+            tagger = discogstagger.tagger.Tagger(
+                artist, release, settings, searcher)
+            files = parser['files']
+            for i in range(len(files)):
+                print("Tagging :: {}".format(files[i]))
+                result = tagger.tag_file(files[i], release.tracklist[i])
+                if result == False:
+                    print("Could not tag a file: '{}'".format(files[i]))

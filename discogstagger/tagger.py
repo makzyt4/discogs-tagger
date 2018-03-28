@@ -2,11 +2,14 @@ import mutagen
 
 
 class Tagger:
-    def __init__(self, release):
+    def __init__(self, artist, release, settings, searcher):
         self.release = release
 
-    def tag_file(filename, artist, track, settings, searcher):
-        audio = mutagen.File(file)
+    def tag_file(self, filename, track):
+        audio = mutagen.File(filename)
+
+        if audio is None:
+            return False
 
         # Clear all tags
         for key in audio.keys():
@@ -25,7 +28,7 @@ class Tagger:
             audio["lyrics"] = searcher.search_lyrics(track[1])
         else:
             audio["lyrics"] = ''
-        if artist.name == release.albumartist:
+        if artist.name == release.album_artist:
             audio["albumartist"] = ''
         else:
             audio["albumartist"] = release.album_artist
