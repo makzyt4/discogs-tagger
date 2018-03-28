@@ -54,3 +54,39 @@ $ discogs-tagger -i ~/Music/SomeMusicDir/*.flac
 ```
 
 What's also important, you should always choose files, otherwise the script won't do anything.
+
+### Settings file
+
+When you first run discogs-tagger, it will create new file at `~/discogs-tagger.settings`. Example settings file looks like this:
+
+```
+format=${d-}${n} - ${t}
+artist-query-size=5
+tag-lyrics=true
+genre-base=style
+```
+
+- format - it's the format of file names that are being tagged
+- artist-query-size - decides how many artists will show up in interactive mode
+- tag-lyrics - boolean, decides if the lyrics will be embedded in the files (it may lenghten the process of tagging)
+- genre-base - decides what Discogs tag it uses to describe genre: `style` or `genre`
+
+#### File name formatting
+
+These are tags used in file name formatting (`format` key in settings file):
+- `${d}` - disc number
+- `${dt}` - total disc number
+- `${n}` - track number
+- `${nt}` - total track number
+- `${t}` - track title
+- `${a}` - artist
+- `${b}` - album artist
+
+You can as well put special characters (but only valid for your filesystem). For
+example:
+
+```
+format=${d-}${n} - ${_t_}
+```
+
+May result in something like this: `01-05 - _Some title_`
