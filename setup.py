@@ -15,7 +15,7 @@ setup(
         'mutagen==1.40.0',
         'requests==2.17.3',
         'urllib3==1.22'
-    ]
+    ],
     description='Discogs album tags downloader',
     author='Maksymilian Zytkiewicz',
     author_email='maksymilian.zytkiewicz@gmail.com',
