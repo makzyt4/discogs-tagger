@@ -6,7 +6,7 @@ class WordProcessor:
         self.short_words = (
             'for', 'and', 'the', 'of', 'by', 'in', 'at', 'o\'', '\'n\'', 'a',
             'an', '\'n', 'n\'', 'on', 'der', 'die', 'das', 'la', 'el', 'les',
-            'as', 'to'
+            'as', 'to', 'but'
         )
 
     def process(self, text):

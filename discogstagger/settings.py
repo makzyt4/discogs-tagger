@@ -20,10 +20,10 @@ class SettingsManager:
             with open(self.filename) as f:
                 content = [x.strip() for x in f.readlines()]
                 for line in content:
-                    key = line.split('=')[0]
-                    val = line.split('=')[1]
+                    key = line.split('=')[0].strip()
+                    val = line.split('=')[1].strip()
                 self.settings[key] = val
-                return True
+            return True
         except FileNotFoundError:
             return False
 

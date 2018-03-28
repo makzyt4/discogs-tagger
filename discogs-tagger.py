@@ -6,6 +6,7 @@ import discogstagger.settings
 import discogstagger.tagger
 import discogstagger.renamer
 import discogstagger.auto_search
+import discogstagger.interactive_search
 import sys
 
 
@@ -19,6 +20,8 @@ if __name__ == '__main__':
         settings.generate()
     else:
         print("Loading settings file...")
+
+    print(settings.settings)
 
     if len(parser['files']) == 0:
         print("You haven't selected any files!")
@@ -37,3 +40,10 @@ if __name__ == '__main__':
         autosearch.search_release()
         if autosearch.ask_if_ok():
             autosearch.tag_files()
+    elif parser['interactive']:
+        interactive_search = discogstagger.interactive_search.InteractiveSearch(
+            parser, settings)
+        interactive_search.search_artist()
+        interactive_search.choose_release()
+        if interactive_search.ask_if_ok():
+            interactive_search.tag_files()

@@ -1,4 +1,5 @@
 import requests
+import urllib
 
 from bs4 import BeautifulSoup
 from discogstagger.wordprocessor import WordProcessor
@@ -17,6 +18,39 @@ class WebCrawler:
 
     def get_soup(self, url):
         return BeautifulSoup(self.get_response(url).text, 'html.parser')
+
+    def search_artist(self, settings):
+        artist_name = input("Enter artist name: ")
+        artists = self.search_artists(artist_name)
+        query_length = min(int(settings["artist-query-size"]), len(artists))
+        for i in range(query_length):
+            print("[{0:2}] {1}".format(i + 1, artists[i]['name']))
+        print("-" * 80)
+        while True:
+            try:
+                index = int(input("Enter index of artist: "))
+                if index < 1 or index > len(artists):
+                    print("Value out of range. Try again.")
+                else:
+                    break
+            except ValueError:
+                print("Wrong value. Please enter an integer.")
+        print("-" * 80)
+        artist = Artist(
+            self.base_url + artists[index - 1]['link'] + "?sort=year%2Casc&limit=500&page=1")
+        return artist
+
+    def search_artists(self, artist_name):
+        url = "https://www.discogs.com/search/?q={}&type=artist"\
+            .format(urllib.parse.quote_plus(artist_name))
+        soup = WebCrawler().get_soup(url)
+        artists = []
+        for x in soup.findAll("a", {"class": "search_result_title"}):
+            artists.append({
+                'name': WordProcessor().process(x.text),
+                'link': x['href']}
+            )
+        return artists
 
 
 class Artist:
