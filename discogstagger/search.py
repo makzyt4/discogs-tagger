@@ -1,4 +1,7 @@
-import discogstagger.crawler
+from crawler import WebCrawler, Artist, Release
+from tagger import Tagger
+from renamer import FileRenamer
+from lyrics import LyricsSearcher
 
 
 class Search:
@@ -33,12 +36,11 @@ class Search:
         return True
 
     def tag_files(self):
-        self.searcher = discogstagger.lyrics.LyricsSearcher(self.artist.name)
+        self.searcher = LyricsSearcher(self.artist.name)
         self.connect_to_lyric_wikia()
-        self.tagger = discogstagger.tagger.Tagger(
-            self.artist, self.release, self.settings, self.searcher)
-        self.renamer = discogstagger.renamer.FileRenamer(
-            self.settings['format'])
+        self.tagger = Tagger(self.artist, self.release,
+                             self.settings, self.searcher)
+        self.renamer = FileRenamer(self.settings['format'])
         files = self.parser['files']
         for i in range(len(files)):
             print("Tagging :: {}".format(files[i]))
