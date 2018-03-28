@@ -41,5 +41,7 @@ class FileRenamer:
         self.replace_tag('a', artist.name)
         self.replace_tag('b', release.album_artist)
         dirname = os.path.dirname(file)
+        if dirname == '/' or dirname == '\':
+            dirname = ''
         shutil.move(file, dirname + os.sep + self.processed + '.' + extension)
         self.reset()
