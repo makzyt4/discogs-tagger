@@ -82,6 +82,27 @@ class Release:
         self.subreleases = self._get_subreleases()
         self.tracklist = self._get_tracklist()
 
+    def print_summary(self):
+        print('{} - {} ({})'.format(self.albumartist, self.title, self.year))
+        print('Label: {}'.format(self.label))
+        print('Format: {}'.format(self.format))
+        print('Style: {}'.format(self.style))
+        print('-' * 80)
+        if self.is_master:
+            print(":: Subreleases ::")
+            for sub in self.subreleases:
+                print('{} {} ({}) <{}>'.format(
+                    sub['title'], sub['format'], sub['year'], sub['label']))
+        else:
+            print(":: Tracklist ::")
+            for track in self.tracklist:
+                if track['disc'] == '':
+                    print('{} - {}'.format(track['number'], track['title']))
+                else:
+                    print('{}-{} - {}'.format(track['disc'], track['number'],
+                                              track['title']))
+        print('-' * 80)
+
     def _get_title(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
         title = profile_title_h1.find_all('span', {'itemprop': 'name'})[1]

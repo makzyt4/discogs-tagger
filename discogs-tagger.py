@@ -14,7 +14,12 @@ if __name__ == "__main__":
     else:
         print("Loading settings file...")
 
+    if parser['ambiguous']:
+        print("There cannot be both interactive and URL option! Choose one.")
+        sys.exit(1)
+
     if parser['url'] is not None:
+        print("Loading URL :: {}".format(parser['url']))
         release = discogstagger.crawler.Release(parser['url'])
         release.load()
-        print(release.albumartist)
+        release.print_summary()
