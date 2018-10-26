@@ -165,18 +165,28 @@ class Release:
 
     def _get_title(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
-        title = profile_title_h1.find_all('span', {'itemprop': 'name'})[1]
+        print(profile_title_h1)
+        #title = profile_title_h1.find_all('span', {'itemprop': 'name'})[1]
+        title = profile_title_h1.find_all('span')[-1]
         return WordProcessor().process(title.text)
 
     def _get_artist_link(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
+        print('============')
+        print(profile_title_h1)
         artist = profile_title_h1.find('span', {'itemprop': 'byArtist'})
-        artist_link = artist.find('a')['href']
+        if not artist:
+            artist_link = profile_title_h1.find('a')['href']
+        else:
+            artist_link = artist.find('a')['href']
         return WordProcessor().process(artist_link)
 
     def _get_album_artist(self):
         profile_title_h1 = self.soup.find('h1', {'id': 'profile_title'})
+        print(profile_title_h1)
         artist = profile_title_h1.find('span', {'itemprop': 'byArtist'})
+        if not artist:
+            artist = profile_title_h1.find('span')
         link_artist = artist.find('a')
         return WordProcessor().process(link_artist.text)
 
